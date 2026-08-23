@@ -12,6 +12,7 @@ namespace MentalHealth.Interfejsi
         Task ObrisiCilj(int ciljId);
         Task<KorakCilja> DodajKorak(KorakCilja korak);
         Task<KorakCilja> ZavrsiKorak(int korakId);
+        Task<KorakCilja> PonistiKorak(int korakId);
         Task<List<KorakCilja>> GetKoraciCilja(int ciljId);
         Task AzurirajProcenatNapretka(int ciljId);
     }

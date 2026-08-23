@@ -171,6 +171,22 @@ namespace MentalHealth.Controllers
             }
         }
 
+        [HttpPost("koraci/{korakId}/ponisti")]
+        public async Task<IActionResult> PonistiKorak(int korakId)
+        {
+            try
+            {
+                var rezultat = await _ciljRepo.PonistiKorak(korakId);
+                var prikaz = _mapper.Map<PrikazKorakaCiljaDTO>(rezultat);
+
+                return Ok(new { poruka = "Korak vraćen kao nezavršen", podaci = prikaz });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
         [HttpGet("{ciljId}/koraci")]
         public async Task<IActionResult> GetKoraciCilja(int ciljId)
         {

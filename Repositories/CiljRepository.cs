@@ -140,6 +140,29 @@ namespace MentalHealth.Repository
             return korak;
         }
 
+        public async Task<KorakCilja> PonistiKorak(int korakId)
+        {
+            var korak = await _context.KoraciCiljeva.FindAsync(korakId);
+            if (korak == null)
+                throw new Exception("Korak nije pronađen");
+
+            korak.Zavrsen = false;
+            korak.DatumZavrsetka = null;
+            await _context.SaveChangesAsync();
+
+            await AzurirajProcenatNapretka(korak.CiljId);
+
+            // Ako je cilj u međuvremenu bio označen kao završen, vrati ga na aktivan
+            var cilj = await _context.Ciljevi.FindAsync(korak.CiljId);
+            if (cilj != null && cilj.Status == "Završen")
+            {
+                cilj.Status = "Aktivan";
+                await _context.SaveChangesAsync();
+            }
+
+            return korak;
+        }
+
         public async Task<List<KorakCilja>> GetKoraciCilja(int ciljId)
         {
             return await _context.KoraciCiljeva
