@@ -1,0 +1,28 @@
+# Build rezultati
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logovi
+*.log
+
+# appsettings sa lokalnim tajnama (ostavi appsettings.json i appsettings.Development.json ako ne sadrže prave tajne)
+appsettings.*.local.json
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# Test rezultati
+[Tt]est[Rr]esult*/
