@@ -7,8 +7,12 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Add DbContext
+// Konekcija se čita iz appsettings (ConnectionStrings:DefaultConnection) ili, ako je
+// dostupna, iz DATABASE_URL environment varijable (format koji koristi Railway i slične
+// platforme za Postgres: postgres://user:pass@host:port/baza) — konvertuje se u Npgsql format.
+var connectionString = ResolvKonekcionogNiza(builder.Configuration);
 builder.Services.AddDbContext<MentalHealth.Data.AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 // 2. Add Identity
 builder.Services.AddIdentity<MentalHealth.Data.Models.Korisnik, IdentityRole>(options =>
@@ -83,11 +87,25 @@ builder.Services.AddAutoMapper(typeof(MentalHealth.Mappers.AutoMapperProfile));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Railway (i Docker generalno) dodeljuju port preko PORT environment varijable i sami
+// terminiraju HTTPS na svom proxy-ju — kontejner treba da sluša običan HTTP na tom portu.
+// Lokalno (dotnet run / Visual Studio) PORT nije podešen, pa se koriste portovi iz
+// launchSettings.json kao i do sada.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://+:{port}");
+}
+
 var app = builder.Build();
 
-// Seed roles
+// Primeni sve nepokrenute migracije pri startu — hostovana baza kreće prazna i nema
+// ko ručno da pokrene 'dotnet ef database update' na njoj.
 using (var scope = app.Services.CreateScope())
 {
+    var dbContext = scope.ServiceProvider.GetRequiredService<MentalHealth.Data.AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Microsoft.AspNetCore.Identity.IdentityRole>>();
     string[] roles = { "Klijent", "Terapeut", "Administrator" };
     foreach (var role in roles)
@@ -106,10 +124,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// Nema UseHttpsRedirection() — i Railway i lokalni Docker Compose serviraju običan HTTP
+// unutar kontejnera (HTTPS se rešava na proxy sloju), pa bi redirekcija ovde pravila petlju.
 
 app.UseCors("AllowAngular");
 
@@ -118,4 +134,22 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-@app.Run();
+app.Run();
+
+// Pretvara DATABASE_URL (postgres://user:pass@host:port/baza) u Npgsql konekcioni string,
+// ako je ta environment varijabla dostupna; inače koristi standardnu appsettings konfiguraciju.
+static string ResolvKonekcionogNiza(IConfiguration configuration)
+{
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (string.IsNullOrEmpty(databaseUrl))
+    {
+        return configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection nije podešen.");
+    }
+
+    var uri = new Uri(databaseUrl);
+    var korisnickiPodaci = uri.UserInfo.Split(':', 2);
+
+    return $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
+           $"Username={korisnickiPodaci[0]};Password={korisnickiPodaci[1]};SSL Mode=Require;Trust Server Certificate=true;";
+}

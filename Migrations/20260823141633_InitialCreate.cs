@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -17,10 +18,10 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,27 +32,27 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prezime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnonimnaRegistracija = table.Column<bool>(type: "bit", nullable: false),
-                    AktivnaNalog = table.Column<bool>(type: "bit", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ZadnjaAktivnost = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Ime = table.Column<string>(type: "text", nullable: false),
+                    Prezime = table.Column<string>(type: "text", nullable: false),
+                    AnonimnaRegistracija = table.Column<bool>(type: "boolean", nullable: false),
+                    AktivnaNalog = table.Column<bool>(type: "boolean", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ZadnjaAktivnost = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,14 +63,14 @@ namespace MentalHealthApi.Migrations
                 name: "EdukativniSadrzaj",
                 columns: table => new
                 {
-                    SadrzajId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Naslov = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Kategorija = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumObjave = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SadrzajId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Naslov = table.Column<string>(type: "text", nullable: false),
+                    Opis = table.Column<string>(type: "text", nullable: false),
+                    Kategorija = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Autor = table.Column<string>(type: "text", nullable: false),
+                    DatumObjave = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,11 +81,11 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,11 +102,11 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,10 +123,10 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,8 +143,8 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -166,10 +167,10 @@ namespace MentalHealthApi.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,16 +187,16 @@ namespace MentalHealthApi.Migrations
                 name: "Ciljevi",
                 columns: table => new
                 {
-                    CiljId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NazivCilja = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Kategorija = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProcenatNapretka = table.Column<int>(type: "int", nullable: false)
+                    CiljId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    NazivCilja = table.Column<string>(type: "text", nullable: false),
+                    Opis = table.Column<string>(type: "text", nullable: false),
+                    Kategorija = table.Column<string>(type: "text", nullable: false),
+                    DatumPocetka = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DatumZavrsetka = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    ProcenatNapretka = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,18 +213,18 @@ namespace MentalHealthApi.Migrations
                 name: "DnevnaRaspolozenja",
                 columns: table => new
                 {
-                    RaspolozenjeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OcenaRaspolozenja = table.Column<int>(type: "int", nullable: false),
-                    Emotikon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UzrociStresa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Afirmacija = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    KvalitetSna = table.Column<int>(type: "int", nullable: false),
-                    KvalitetIshrane = table.Column<int>(type: "int", nullable: false),
-                    NivoFizickeAktivnosti = table.Column<int>(type: "int", nullable: false),
-                    DatumUnosa = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RaspolozenjeId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    OcenaRaspolozenja = table.Column<int>(type: "integer", nullable: false),
+                    Emotikon = table.Column<string>(type: "text", nullable: false),
+                    Opis = table.Column<string>(type: "text", nullable: false),
+                    UzrociStresa = table.Column<string>(type: "text", nullable: false),
+                    Afirmacija = table.Column<string>(type: "text", nullable: false),
+                    KvalitetSna = table.Column<int>(type: "integer", nullable: false),
+                    KvalitetIshrane = table.Column<int>(type: "integer", nullable: false),
+                    NivoFizickeAktivnosti = table.Column<int>(type: "integer", nullable: false),
+                    DatumUnosa = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,16 +241,16 @@ namespace MentalHealthApi.Migrations
                 name: "DnevnikMisli",
                 columns: table => new
                 {
-                    BeleskaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Naslov = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sadrzaj = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Kategorija = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deljena = table.Column<bool>(type: "bit", nullable: false),
-                    DeljenjeTerapeutId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatumAzuriranja = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    BeleskaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    Naslov = table.Column<string>(type: "text", nullable: false),
+                    Sadrzaj = table.Column<string>(type: "text", nullable: false),
+                    Kategorija = table.Column<string>(type: "text", nullable: false),
+                    Deljena = table.Column<bool>(type: "boolean", nullable: false),
+                    DeljenjeTerapeutId = table.Column<string>(type: "text", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DatumAzuriranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -266,16 +267,16 @@ namespace MentalHealthApi.Migrations
                 name: "KorisnickiProfili",
                 columns: table => new
                 {
-                    ProfilId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OpisProfila = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfilnaSlika = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PreferiraniSat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PrimiMotivacionuPoruku = table.Column<bool>(type: "bit", nullable: false),
-                    PrimiPodsetnik = table.Column<bool>(type: "bit", nullable: false),
-                    Cilj = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumAzuriranja = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ProfilId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    OpisProfila = table.Column<string>(type: "text", nullable: false),
+                    ProfilnaSlika = table.Column<string>(type: "text", nullable: false),
+                    PreferiraniSat = table.Column<string>(type: "text", nullable: false),
+                    PrimiMotivacionuPoruku = table.Column<bool>(type: "boolean", nullable: false),
+                    PrimiPodsetnik = table.Column<bool>(type: "boolean", nullable: false),
+                    Cilj = table.Column<string>(type: "text", nullable: false),
+                    DatumAzuriranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -292,15 +293,15 @@ namespace MentalHealthApi.Migrations
                 name: "Navike",
                 columns: table => new
                 {
-                    NavikaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NazivNavike = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Kategorija = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ucestalost = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumPocetka = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Aktivna = table.Column<bool>(type: "bit", nullable: false)
+                    NavikaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    NazivNavike = table.Column<string>(type: "text", nullable: false),
+                    Opis = table.Column<string>(type: "text", nullable: false),
+                    Kategorija = table.Column<string>(type: "text", nullable: false),
+                    Ucestalost = table.Column<string>(type: "text", nullable: false),
+                    DatumPocetka = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Aktivna = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -317,14 +318,14 @@ namespace MentalHealthApi.Migrations
                 name: "Podsetnici",
                 columns: table => new
                 {
-                    PodsetnikId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Tip = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tekst = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Aktivan = table.Column<bool>(type: "bit", nullable: false),
-                    VremePodsetnika = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PodsetnikId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    Tip = table.Column<string>(type: "text", nullable: false),
+                    Tekst = table.Column<string>(type: "text", nullable: false),
+                    Aktivan = table.Column<bool>(type: "boolean", nullable: false),
+                    VremePodsetnika = table.Column<string>(type: "text", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -341,13 +342,13 @@ namespace MentalHealthApi.Migrations
                 name: "Recenzije",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Tekst = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    Ocena = table.Column<int>(type: "int", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    Tekst = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Ocena = table.Column<int>(type: "integer", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -364,17 +365,17 @@ namespace MentalHealthApi.Migrations
                 name: "Sesije",
                 columns: table => new
                 {
-                    SesijaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KlijentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TerapeutId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Tip = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumSesije = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrajanjeSesijeMinuta = table.Column<int>(type: "int", nullable: false),
-                    BeleskeTerapeuta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FeedbackKlijenta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SesijaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KlijentId = table.Column<string>(type: "text", nullable: false),
+                    TerapeutId = table.Column<string>(type: "text", nullable: false),
+                    Tip = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    DatumSesije = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TrajanjeSesijeMinuta = table.Column<int>(type: "integer", nullable: false),
+                    BeleskeTerapeuta = table.Column<string>(type: "text", nullable: false),
+                    FeedbackKlijenta = table.Column<string>(type: "text", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -395,15 +396,15 @@ namespace MentalHealthApi.Migrations
                 name: "SOSKontakti",
                 columns: table => new
                 {
-                    SOSKontaktId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ImeKontakta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telefon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Napomena = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Aktivan = table.Column<bool>(type: "bit", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SOSKontaktId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    ImeKontakta = table.Column<string>(type: "text", nullable: false),
+                    Telefon = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Napomena = table.Column<string>(type: "text", nullable: false),
+                    Aktivan = table.Column<bool>(type: "boolean", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -420,15 +421,17 @@ namespace MentalHealthApi.Migrations
                 name: "Terapeuti",
                 columns: table => new
                 {
-                    TerapeutId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KorisnikId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Zvanje = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Licenca = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OpisPrakse = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dostupan = table.Column<bool>(type: "bit", nullable: false),
-                    SatnicaKonzultacije = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DatumRegistracije = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TerapeutId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KorisnikId = table.Column<string>(type: "text", nullable: false),
+                    Zvanje = table.Column<string>(type: "text", nullable: false),
+                    Licenca = table.Column<string>(type: "text", nullable: false),
+                    OpisPrakse = table.Column<string>(type: "text", nullable: false),
+                    Dostupan = table.Column<bool>(type: "boolean", nullable: false),
+                    SatnicaKonzultacije = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    DatumRegistracije = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProsecnaOcena = table.Column<double>(type: "double precision", nullable: false),
+                    BrojRecenzija = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -445,12 +448,12 @@ namespace MentalHealthApi.Migrations
                 name: "KoraciCiljeva",
                 columns: table => new
                 {
-                    KorakId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CiljId = table.Column<int>(type: "int", nullable: false),
-                    OpisKoraka = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Zavrsen = table.Column<bool>(type: "bit", nullable: false),
-                    DatumZavrsetka = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    KorakId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CiljId = table.Column<int>(type: "integer", nullable: false),
+                    OpisKoraka = table.Column<string>(type: "text", nullable: false),
+                    Zavrsen = table.Column<bool>(type: "boolean", nullable: false),
+                    DatumZavrsetka = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -467,12 +470,12 @@ namespace MentalHealthApi.Migrations
                 name: "PracenjaNavika",
                 columns: table => new
                 {
-                    PracenjeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NavikaId = table.Column<int>(type: "int", nullable: false),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Zavrseno = table.Column<bool>(type: "bit", nullable: false),
-                    Komentar = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PracenjeId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NavikaId = table.Column<int>(type: "integer", nullable: false),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Zavrseno = table.Column<bool>(type: "boolean", nullable: false),
+                    Komentar = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -489,16 +492,16 @@ namespace MentalHealthApi.Migrations
                 name: "Poruke",
                 columns: table => new
                 {
-                    PorukaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PosiljaocId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PrimalacId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Sadrzaj = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SadrzajSifrovane = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Procitana = table.Column<bool>(type: "bit", nullable: false),
-                    DatumSlanja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatumCitanja = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SesijaId = table.Column<int>(type: "int", nullable: true)
+                    PorukaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PosiljaocId = table.Column<string>(type: "text", nullable: false),
+                    PrimalacId = table.Column<string>(type: "text", nullable: false),
+                    Sadrzaj = table.Column<string>(type: "text", nullable: false),
+                    SadrzajSifrovane = table.Column<string>(type: "text", nullable: false),
+                    Procitana = table.Column<bool>(type: "boolean", nullable: false),
+                    DatumSlanja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DatumCitanja = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SesijaId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -525,14 +528,14 @@ namespace MentalHealthApi.Migrations
                 name: "ZakazivanjaSesija",
                 columns: table => new
                 {
-                    ZakazivanjeSesijeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KlijentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TerapeutId = table.Column<int>(type: "int", nullable: false),
-                    DatumZakazane = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Napomena = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ZakazivanjeSesijeId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KlijentId = table.Column<string>(type: "text", nullable: false),
+                    TerapeutId = table.Column<int>(type: "integer", nullable: false),
+                    DatumZakazane = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    Napomena = table.Column<string>(type: "text", nullable: false),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -568,8 +571,7 @@ namespace MentalHealthApi.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -595,8 +597,7 @@ namespace MentalHealthApi.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ciljevi_KorisnikId",
