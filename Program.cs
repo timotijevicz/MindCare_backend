@@ -4,6 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+// Kod je pisan sa SQL Server-ovim DateTime ponašanjem u glavi (Kind se ignoriše).
+// Npgsql od verzije 6 strogo odbija da upiše DateTime sa Kind=Unspecified/Local u
+// 'timestamp with time zone' kolonu — ovaj switch vraća staro, tolerantno ponašanje
+// da ne bismo morali ručno da normalizujemo Kind na svakom DateTime polju u projektu.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Add DbContext
